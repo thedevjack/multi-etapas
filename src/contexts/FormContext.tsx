@@ -3,18 +3,44 @@
 // Provider = ambiente que libera acesso aos dados
 // Hook = vai simplificar o processo de acessar as informações sai/entra
 
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, ReactNode, useContext, useReducer } from 'react';
 
-const initialData = {
+// type dos dados armazenados do state
+type State = {
+    currentStep: number;
+    name: string;
+    level: 0 | 1;
+    email: string;
+    github: string;
+}
+
+// dentro do type só poder ter as informações do enum
+type Action = { 
+    type: FormActions;
+    payload: any;
+ }
+
+// type para o contexto, sempre vai ter dois itens -> state e dispatach
+// vai ser utilizado no createContext
+type ContextType = {
+    state: State;
+    dispatch: (action: Action) => void
+}
+// children
+type FormProviderProps = {
+    children: ReactNode
+}
+
+const initialData: State = {
     currentStep: 0,
     name: '',
     level: 0,
     email: '',
     github:''
-};
+}
 
 // Context
-const FormContext = createContext(undefined);
+const FormContext = createContext<ContextType | undefined>(undefined);
 
 // Reducer
 enum FormActions{
@@ -44,7 +70,7 @@ enum FormActions{
 //                      e payload qual dado eu quero executar
 
 // return = reducer sempre retorna os meus dados
-const formReducer = (state, action) => {
+const formReducer = (state: State, action: Action) => {
     switch(action.type){
         case FormActions.setCurrentStep:
             return {...state, currentStep: action.payload};
@@ -69,7 +95,7 @@ const formReducer = (state, action) => {
 // vai ser o componente principal da aplicação
 
 //
-const FormProvider = ({ children }) => {
+const FormProvider = ({ children }:FormProviderProps) => {
     
     // initialData: recebe dados iniciais de um objeto
     // state: contém os dados
