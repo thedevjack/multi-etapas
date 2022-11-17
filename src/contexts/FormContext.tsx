@@ -43,7 +43,7 @@ const initialData: State = {
 const FormContext = createContext<ContextType | undefined>(undefined);
 
 // Reducer
-enum FormActions{
+export enum FormActions{
 
     // vai mostrar p/ usuario qual passo está
     setCurrentStep,
@@ -95,7 +95,7 @@ const formReducer = (state: State, action: Action) => {
 // vai ser o componente principal da aplicação
 
 //
-const FormProvider = ({ children }:FormProviderProps) => {
+export const FormProvider = ({ children }:FormProviderProps) => {
     
     // initialData: recebe dados iniciais de um objeto
     // state: contém os dados
@@ -119,7 +119,7 @@ const FormProvider = ({ children }:FormProviderProps) => {
 // Context HOOK
 
 // Quando quiser utilizar/acessar os dados do contexto
-const useForm = () => {
+export const useForm = () => {
     const context = useContext(FormContext);
     if(context === undefined) {
         throw new Error('useForm precisa ser usado dentro do FormProvider');
